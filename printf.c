@@ -15,43 +15,6 @@ int _putchar(char c)
 }
 
 /**
- * _itoa - Converts an integer to a string
- * @num: The integer to convert
- * @buffer: The buffer to store the converted string
- * @buff_size: The size of the buffer
- * Return: The length of the converted string
- */
-int _itoa(int num, char *buffer, int buff_size)
-{
-    int i = buff_size - 1;
-    buffer[i--] = '\0';
-
-    if (num == 0)
-    {
-        buffer[i--] = '0';
-        return i + 1;
-    }
-
-    int is_negative = 0;
-    if (num < 0)
-    {
-        is_negative = 1;
-        num = -num;
-    }
-
-    while (num > 0 && i >= 0)
-    {
-        buffer[i--] = (num % 10) + '0';
-        num /= 10;
-    }
-
-    if (is_negative && i >= 0)
-        buffer[i--] = '-';
-
-    return i + 1;
-}
-
-/**
  * _printf - Custom Printf function
  * @format: format string.
  * Return: Number of characters printed (excluding the null byte used to end output to strings).
@@ -64,9 +27,6 @@ int _printf(const char *format, ...)
     char buffer[BUFF_SIZE];
     int buff_ind = 0;
     int printed_chars = 0;
-
-    va_list args;
-    va_start(args, format);
 
     for (; *format; format++)
     {
@@ -83,19 +43,43 @@ int _printf(const char *format, ...)
             format++; // Move past the '%'
             switch (*format)
             {
-                case 'd':
-                case 'i':
+                case 'c':
                 {
-                    int num = va_arg(args, int);
-                    int len = _itoa(num, &buffer[buff_ind], BUFF_SIZE - buff_ind);
-                    if (len > 0)
+                    char c = (char)__builtin_va_arg(&format, int);
+                    buffer[buff_ind++] = c;
+                    if (buff_ind == BUFF_SIZE)
+                        print_buffer(buffer, &buff_ind);
+                    else
+                        printed_chars++;
+                    break;
+                }
+
+                case 's':
+                {
+                    char *str = __builtin_va_arg(&format, char *);
+                    if (str != NULL)
                     {
-                        buff_ind += len;
-                        if (buff_ind == BUFF_SIZE)
-                            print_buffer(buffer, &buff_ind);
-                        else
-                            printed_chars += len;
+                        int i = 0;
+                        while (str[i])
+                        {
+                            buffer[buff_ind++] = str[i];
+                            if (buff_ind == BUFF_SIZE)
+                                print_buffer(buffer, &buff_ind);
+                            else
+                                printed_chars++;
+                            i++;
+                        }
                     }
+                    break;
+                }
+
+                case '%':
+                {
+                    buffer[buff_ind++] = '%';
+                    if (buff_ind == BUFF_SIZE)
+                        print_buffer(buffer, &buff_ind);
+                    else
+                        printed_chars++;
                     break;
                 }
 
@@ -108,8 +92,6 @@ int _printf(const char *format, ...)
             }
         }
     }
-
-    va_end(args);
 
     print_buffer(buffer, &buff_ind);
 
@@ -129,7 +111,6 @@ void print_buffer(char buffer[], int *buff_ind)
         for (i = 0; i < *buff_ind; i++)
             _putchar(buffer[i]);
 
-        *buff_ind = 0;
+                *buff_ind = 0;
     }
 }
-
