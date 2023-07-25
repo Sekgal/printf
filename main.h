@@ -1,19 +1,37 @@
-
-#define MAIN_H
 #ifndef MAIN_H
-
-#include <unistd.h>
+#define MAIN_H
 
 #include <stdarg.h>
-
 #include <stddef.h>
+#include <stdlib.h>
 
-#define BUFF_SIZE 1024
+/**
+ * struct structprint - structure containing
+ * @q: the location and method to translate data to characters.
+ * @u: print function for specific type.
+ *
+ * Return: int
+ */
 
-int _printf(const char *format, ...);
-void print_buffer(char buffer[], int *buff_ind);
-int _putchar(char c);
-int _itoa(unsigned int num, char *buffer, int buff_size, int base);
+typedef struct structprint
+{
+	char *q;
+	int (*u)(char *format, va_list);
+} structype;
 
-
-#endif /* MAIN_H */
+int _putchar(char ch);
+int _puts(char *string);
+int printc(char *format, va_list);
+int printstr(char *format, va_list);
+int (*driver(char *format))(char *format, va_list);
+int _printf(char *format, ...);
+int printint(char *format, va_list pa);
+int integer(int number);
+int contadordigit(int number);
+int _abs(int number);
+int printpercent(char *format, va_list pa);
+int printhex(char *format, va_list);
+int printHEX(char *format, va_list);
+int printocta(char *format, va_list);
+int print_unsign(char *format, va_list);
+#endif
