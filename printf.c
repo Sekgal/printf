@@ -1,9 +1,7 @@
-#include "main.h"
-
+#include"main.h"
 #define BUFF_SIZE 1024
 
-void print_buffer(char buffer[], int *buff_ind);
-
+void print_buffer(char buffer[],int*buff_ind);
 /**
  * _putchar - Writes a character to the standard output (stdout)
  * @c: The character to be written
@@ -23,16 +21,14 @@ int _putchar(char c)
  */
 int _itoa(int num, char *buffer, int buff_size)
 {
-    int i = buff_size - 1;
+ int i = buff_size - 1;
     buffer[i--] = '\0';
-
-    if (num == 0)
+ if (num == 0)
     {
         buffer[i--] = '0';
         return i + 1;
     }
-
-    int is_negative = 0;
+ int is_negative = 0;
     if (num < 0)
     {
         is_negative = 1;
@@ -91,7 +87,7 @@ int _printf(const char *format, ...)
                     if (len > 0)
                     {
                         buff_ind += len;
-                        if (buff_ind == BUFF_SIZE)
+                  if (buff_ind == BUFF_SIZE)
                             print_buffer(buffer, &buff_ind);
                         else
                             printed_chars += len;
@@ -132,3 +128,4 @@ void print_buffer(char buffer[], int *buff_ind)
         *buff_ind = 0;
     }
 }
+
