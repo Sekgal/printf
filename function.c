@@ -1,7 +1,11 @@
 #include "main.h"
+#include <unistd.h>   
+#include <stdarg.h> 
+
 #define BUFF_SIZE 1024
 
 void print_buffer(char buffer[], int *buff_ind);
+
 
 /**
  * _putchar - Writes a character to the standard output (stdout)
@@ -24,7 +28,7 @@ int _putchar(char c)
  * Return: The length of the converted string
  */
 
-int _itoa(int num, char *buffer, int buff_size)
+int _itoa(unsigned int num, char *buffer, int buff_size, int base)
 
 {
 	int i = buff_size - 1;
