@@ -1,6 +1,9 @@
 #include "main.h"
-#include <stddef.h>
 #include <stdarg.h>
+#include <stddef.h>  // Include for NULL
+
+#define BUFF_SIZE 1024
+
 
 void print_buffer(char buffer[], int *buff_ind);
 
